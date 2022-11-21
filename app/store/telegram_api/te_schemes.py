@@ -27,3 +27,11 @@ class InlineKeyboardBottomSchema(Schema):
 
 class InlineKeyboardMarkupSchema(Schema):
     inline_keyboard = fields.List(Nested(InlineKeyboardBottomSchema, many=True))
+
+
+class UpdateSchema(Schema):
+    update_id = fields.Int(required=True)
+    message = fields.Str(required=False)
+    inlineQuery = fields.Str(required=False)
+    chosenInlineResult = fields.Str(required=False)
+    callbackQuery = fields.Str(required=False)

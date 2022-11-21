@@ -18,5 +18,6 @@ class BaseAccessor:
     async def connect(self, app: "Application"):
         await self.app.database.connect()
 
+
     async def disconnect(self, app: "Application"):
         await self.app.database.disconnect()

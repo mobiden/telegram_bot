@@ -6,7 +6,7 @@ from typing import List, Optional
 
 
 @dataclass
-class Writer:
+class WriterClass:
     id: int
     is_bot: bool
     username: str
@@ -16,7 +16,7 @@ class Writer:
     last_name: Optional[str] = field(default='')
 
 @dataclass
-class Chat:
+class ChatClass:
     id: int
     type: str
     title: Optional[str] = field(default='')
@@ -26,26 +26,26 @@ class Chat:
     all_members_are_administrators: Optional[bool] = field(default=False)
 
 @dataclass
-class Entities:
+class EntitiesClass:
     offset: int
     length: int
     type: str
 
 @dataclass
-class Message:
+class MessageClass:
     message_id: int
     date: int
     text: str
-    chat: Optional[Chat] = field(default=None)
-    from_: Optional[Writer] = field(default=None)
+    chat: Optional[ChatClass] = field(default=None)
+    from_: Optional[WriterClass] = field(default=None)
     forward_from: Optional[str]= field(default='')
-    entities: Optional[Entities] = field(default=None)
+    entities: Optional[EntitiesClass] = field(default=None)
 
 
 @dataclass
-class Update:
+class UpdateClass:
     update_id: int
-    message: Optional[Message] = field(default=None)
+    message: Optional[MessageClass] = field(default=None)
     inlineQuery: Optional[str]  = field(default='')# переделать
     chosenInlineResult: Optional[str]  = field(default='')# переделать
     callbackQuery: Optional[str]  = field(default='')# переделать

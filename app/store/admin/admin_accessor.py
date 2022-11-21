@@ -19,6 +19,7 @@ class AdminAccessor(BaseAccessor):
             email=app.config.admin.email, password=app.config.admin.password
         )
 
+
     async def get_by_email(self, email: str) -> Optional[AdminModel]:
 
         async with  self.app.database.async_session() as session:

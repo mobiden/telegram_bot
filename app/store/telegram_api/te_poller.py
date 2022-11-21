@@ -13,8 +13,11 @@ class Poller:
         self.poll_task: Optional[Task] = None
 
     async def start(self):
-        self.is_running = True
-        self.poll_task = asyncio.create_task(self.poll())
+        if self.store.admins.app.config.admin.debug:
+            self.is_running = True
+            self.poll_task = asyncio.create_task(self.poll())
+        else:
+            pass #TODO: change
 
 
     async def stop(self):
@@ -27,6 +30,3 @@ class Poller:
             if self.store.admins.app.config.admin.debug:
                 await self.store.telegram_api.poll()
 
-     #       if updates:
-      #          resp = await self.store.bots_manager.handle_updates(updates) #TODO: сделать очередь
-     #           print(resp)
