@@ -1,6 +1,6 @@
 import typing
 
-
+from app.store.telegram_api.te_view import Webhook_handling
 
 if typing.TYPE_CHECKING:
     from app.web.app import Application

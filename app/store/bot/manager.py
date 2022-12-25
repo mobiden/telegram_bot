@@ -3,7 +3,7 @@ import typing
 import datetime
 from logging import getLogger, DEBUG
 
-from app.store.telegram_api.te_dataclasses import Update, OutMessage, Message, Chat
+from app.store.telegram_api.te_dataclasses import OutMessage, UpdateClass, MessageClass, ChatClass
 from app.store.telegram_api.te_view import create_message, InlineBottom, ReplyKeyboard
 
 if typing.TYPE_CHECKING:
@@ -19,7 +19,7 @@ class BotManager:
             self.logger.setLevel(DEBUG)
 
 
-    async def handle_updates(self, updates: typing.List[Update]):
+    async def handle_updates(self, updates: typing.List[UpdateClass]):
         for update in updates:
             if 'message' in update:
                 outmessage = await self.message_processing(update)
@@ -33,13 +33,13 @@ class BotManager:
 
 
 
-    async def message_processing(self, update: Update) -> OutMessage:
+    async def message_processing(self, update: UpdateClass) -> OutMessage:
         temp_dict = update['message']
-        message = Message(
+        message = MessageClass(
             text=temp_dict['text'],
             message_id= temp_dict['message_id'],
             date= temp_dict['date'],
-            chat=Chat(
+            chat=ChatClass(
                     id=temp_dict['chat']['id'],
                     type=temp_dict['chat']['type'],
                         )
@@ -78,7 +78,7 @@ class BotManager:
 
 
 
-    async def callback_q_processing(self, update: Update) -> OutMessage:
+    async def callback_q_processing(self, update: UpdateClass) -> OutMessage:
         outmessage = await create_message(field='callback_query', update=update, )
         return outmessage
 
