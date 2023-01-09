@@ -44,8 +44,8 @@ class TelegramApiAccessor(BaseAccessor):
 
 
     @staticmethod
-    def _build_query(host: str, token: str, method: str, params: Optional [dict] = None) -> str:
-        url = host + token + '/' + method
+    def _build_query(host: str, API_token: str, method: str, params: Optional [dict] = None) -> str:
+        url = host + API_token + '/' + method
         if params:
             url += '?'
             url += "&".join([f"{k}={v}" for k, v in params.items()])
@@ -56,7 +56,7 @@ class TelegramApiAccessor(BaseAccessor):
         te_poll_url = self._build_query(
                 host=API_PATH,
                 method='getUpdates',
-                token=self.app.config.bot.token,
+                API_token=self.app.config.bot.bot_token,
                 params={
                     'offset': str(int(self.up_id) + 1),
                     'timeout': 5,
@@ -77,9 +77,9 @@ class TelegramApiAccessor(BaseAccessor):
         webhook_url = self._build_query(
             host=API_PATH,
             method='setWebhook',
-            token= self.app.config.bot.token,
+            API_token= self.app.config.bot.bot_token,
             params={
-                'url': self.app.config.site.url + str(self.app.config.bot.token),
+                'url': self.app.config.site.url + str(self.app.config.bot.bot_token),
             }
         )
         async with self.session.get(webhook_url) as resp:
@@ -94,7 +94,7 @@ class TelegramApiAccessor(BaseAccessor):
                 'parse_mode': 'HTML', 'reply_markup': keyb}
         send_url = self._build_query(
                 host=API_PATH,
-                token=self.app.config.bot.token,
+                API_token=self.app.config.bot.bot_token,
                 method="sendMessage",
                 params={
                     'chat_id': message.chat_id,

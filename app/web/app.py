@@ -16,6 +16,7 @@ from app.web.config import Config, setup_config
 from app.web.logger import setup_logging
 from app.web.middlewares import setup_middlewares
 from app.web.routes import setup_routes
+from my_logging import create_logs
 
 
 class Application(AiohttpApplication):
@@ -55,13 +56,13 @@ def setup_app(config_path: str) -> Application:
     session_setup(app, storage=EncryptedCookieStorage(
         secret_key=right_secret_key(app.config.session.key)))
     setup_routes(app)
-    setup_aiohttp_apispec(
-        app, title="Telegram Bot", url="/docs/json", swagger_path="/docs"
-    )
+    #TODO: fix the swagger bag
+     # setup_aiohttp_apispec(app, title="Telegram Bot", url="/docs/json", swagger_path="/docs",)
     setup_middlewares(app)
     setup_store(app)
     if app.config.admin.debug:
         PYTHONASYNCIODEBUG = 1
+
     return app
 
 

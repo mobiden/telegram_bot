@@ -14,7 +14,7 @@ class FloraAccessor(BaseAccessor):
                            planting_time: Callable[[int], None],
                            harvest_time:  Callable[[int], None],
                            ) -> FloraModel:
-        async with self.app.database.async_session() as session:
+        async with self.app.database.db_async_session() as session:
             flora = FloraModel(
                 name=name,
                 type=type,
@@ -27,14 +27,14 @@ class FloraAccessor(BaseAccessor):
 
 
     async def get_flora_by_name(self, name: str) -> Optional[FloraModel]:
-        async with self.app.database.async_session() as session:
+        async with self.app.database.db_async_session() as session:
             return await session.execute(
                 f_select(FloraModel).where(FloraModel.name == name).scalar()
                                             )
 
 
     async def flora_names_list(self, type: Optional[str] = None) -> List:
-        async with self.app.database.async_session() as session:
+        async with self.app.database.db_async_session() as session:
             flora_list = await session.execute(
                 f_select(FloraModel))
         filtred_flora_name_list = []
@@ -50,20 +50,20 @@ class FloraAccessor(BaseAccessor):
 
                     #type
     async def get_flora_type(self, type: str) -> Optional[FloraModel]:
-        async with self.app.database.async_session() as session:
+        async with self.app.database.db_async_session() as session:
             return await session.get(TypeModel, type)
             #return await session.execute(ilf_select(TypeModel).where(TypeModel.type == type).scalar())
 
 
     async def create_flora_type(self, type: str) -> TypeModel:
-        async with self.app.database.async_session() as session:
+        async with self.app.database.db_async_session() as session:
             type = TypeModel(type=type)
             session.add(type)
             await session.commit()
             return type
 
     async def list_types(self) -> List: #[TypeModel]:
-        async with self.app.database.async_session() as session:
+        async with self.app.database.db_async_session() as session:
             types = await session.execute(f_select(TypeModel))
             list_types = []
             for type in types.scalars():
@@ -74,7 +74,7 @@ class FloraAccessor(BaseAccessor):
                     #operation
     async def create_operation(self, operation_time: str,
                                 flora: str, description: str) -> GardenOperationModel:
-        async with self.app.database.async_session() as session:
+        async with self.app.database.db_async_session() as session:
             operation = GardenOperationModel(
                 operation_time=operation_time,
                 flora=flora,
@@ -85,7 +85,7 @@ class FloraAccessor(BaseAccessor):
             return operation
 
     async def list_operations(self, flora: Optional[str]) -> List[GardenOperationModel]:
-        async with self.app.database.async_session() as session:
+        async with self.app.database.db_async_session() as session:
             if flora:
                 operations = await session.execute(
                     f_select(GardenOperationModel).where(GardenOperationModel.flora.contains(flora)

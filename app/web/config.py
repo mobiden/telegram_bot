@@ -25,7 +25,7 @@ class AdminConfig:
 
 @dataclass
 class BotConfig:
-    token: str
+    bot_token: str
     group_id: int
 
 
@@ -62,12 +62,14 @@ def setup_config(app: "Application", config_path: str):
             password=raw_config["admin"]["password"],
             debug=raw_config["admin"]["debug"],
         ),
+
         bot=BotConfig(
-            token=raw_config["bot"]["token"],
+            bot_token=raw_config["bot"]["token"],
             group_id=raw_config["bot"]["group_id"],
         ),
-        database=DatabaseConfig(**raw_config[current_db]
-            ),
-        site= SiteConfig(url=raw_config['site']['url'])
+
+        database=DatabaseConfig(**raw_config[current_db]),
+
+        site=SiteConfig(url=raw_config['site']['url']),
 
     )
