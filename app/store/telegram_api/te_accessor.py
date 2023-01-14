@@ -29,12 +29,13 @@ class TelegramApiAccessor(BaseAccessor):
 
     async def connect(self, app: "Application"):
         self.session = ClientSession(connector=TCPConnector(verify_ssl=False))
-        if app.config.admin.debug:
+        if not app.config.bot.webhook:
+            await self.delete_webhook()
             self.poller = Poller(app.store)
             self.logger.info("start telegram polling")
             await self.poller.start()
         else:
-            await self.send_webhook()
+            answer = await self.send_webhook()
 
     async def disconnect(self, app: "Application"):
         if self.session:
@@ -81,6 +82,17 @@ class TelegramApiAccessor(BaseAccessor):
             params={
                 'url': self.app.config.site.url + str(self.app.config.bot.bot_token),
             }
+        )
+        async with self.session.get(webhook_url) as resp:
+            data = await resp.json()
+            return data
+
+    async def delete_webhook(self):
+        webhook_url = self._build_query(
+            host=API_PATH,
+            method='deleteWebhook',
+            API_token= self.app.config.bot.bot_token,
+            params={}
         )
         async with self.session.get(webhook_url) as resp:
             data = await resp.json()

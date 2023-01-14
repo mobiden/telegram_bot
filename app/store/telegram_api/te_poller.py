@@ -13,11 +13,9 @@ class Poller:
         self.poll_task: Optional[Task] = None
 
     async def start(self):
-        if self.store.admins.app.config.admin.debug:
+        if not self.store.admins.app.config.bot.webhook:
             self.is_running = True
             self.poll_task = asyncio.create_task(self.poll())
-        else:
-            pass #TODO: change
 
 
     async def stop(self):
@@ -27,6 +25,6 @@ class Poller:
 
     async def poll(self):
         while self.is_running:
-            if self.store.admins.app.config.admin.debug:
+            if not self.store.admins.app.config.bot.webhook:
                 await self.store.telegram_api.poll()
 

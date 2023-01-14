@@ -1,12 +1,14 @@
 from typing import Optional
 
-from aiohttp.web_urldispatcher import View
+from app.web.app import View
 from aiohttp_apispec import request_schema
 
 from app.store.telegram_api.te_dataclasses import InlineKeyboardBottomClass, OutMessage, InlineMarkupClass, \
     ReplyKeyboardBottomClass, ReplyMarkupClass
 from app.store.telegram_api.te_schemes import InlineKeyboardMarkupSchema, ReplyKeyboardMarkupSchema
 from app.store.telegram_api.te_schemes import UpdateSchema
+from my_logging import create_logs
+
 
 class InlineBottom():
     @staticmethod
@@ -40,6 +42,16 @@ async def create_message(chat_id: str, text:str, markup_json:Optional[dict] = {}
         return outmessage
 
 class Webhook_handling(View):
+
     @request_schema(UpdateSchema)
     async def post(self):
-        name = self.data["name"]
+
+        data = self.data
+        create_logs(f'webhook data: {data}')
+        if 'ok' in data:
+            updates = data['result']
+
+        if updates:
+            ans = await self.app.store.bots_manager.handle_updates(updates)
+            return ans
+

@@ -65,7 +65,7 @@ class BotManager:
                                                     flora=message.text.lower())
             text = 'Нет описания на текущий месяц'
             for operation in list_operations:
-                if str(operation.operation_time) == str(current_month):
+                if int(operation.operation_time) == int(current_month):
                     text = operation.description
             outmessage = await create_message(chat_id=chat_id, text=text)
 

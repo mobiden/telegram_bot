@@ -7,7 +7,7 @@ from app.admin.models import *
 from app.garden.models import *
 from sqlalchemy.engine.url import URL
 
-
+from my_logging import create_logs
 
 
 class Database:
@@ -57,6 +57,7 @@ class Database:
                                              class_=AsyncSession)
 
     async def disconnect(self, *_, **kw):
+        create_logs(f'disconnect {sa_db}')
         self.app = None
-        await sa_db.pop_bind().close()
+        await sa_db.close()   #sa_db.pop_bind().close()
 
