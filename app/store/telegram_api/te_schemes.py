@@ -2,7 +2,6 @@ from marshmallow import Schema, fields
 from marshmallow.fields import Nested
 
 
-
 class ReplyKeyboardBottomSchema(Schema):
     text = fields.Str(required=True)
     request_contact = fields.Bool(required=False)
@@ -14,7 +13,6 @@ class ReplyKeyboardMarkupSchema(Schema):
     resize_keyboard = fields.Bool(required=False)
     one_time_keyboard = fields.Bool(required=False)
     selective = fields.Bool(required=False)
-
 
 
 class InlineKeyboardBottomSchema(Schema):

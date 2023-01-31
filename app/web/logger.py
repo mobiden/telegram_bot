@@ -7,5 +7,7 @@ if typing.TYPE_CHECKING:
 
 def setup_logging(_: "Application") -> None:
 
-    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                        level=logging.DEBUG) # TODO: to change later
+    logging.basicConfig(
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        level=logging.DEBUG,
+    )  # TODO: to change later

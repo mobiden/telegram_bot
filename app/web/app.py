@@ -53,11 +53,15 @@ app = Application()
 def setup_app(config_path: str) -> Application:
     setup_logging(app)
     setup_config(app, config_path)
-    session_setup(app, storage=EncryptedCookieStorage(
-        secret_key=right_secret_key(app.config.session.key)))
+    session_setup(
+        app,
+        storage=EncryptedCookieStorage(
+            secret_key=right_secret_key(app.config.session.key)
+        ),
+    )
     setup_routes(app)
-    #TODO: fix the swagger bag
-     # setup_aiohttp_apispec(app, title="Telegram Bot", url="/docs/json", swagger_path="/docs",)
+    # TODO: fix the swagger bag
+    # setup_aiohttp_apispec(app, title="Telegram Bot", url="/docs/json", swagger_path="/docs",)
     setup_middlewares(app)
     setup_store(app)
     if app.config.admin.debug:
@@ -68,5 +72,5 @@ def setup_app(config_path: str) -> Application:
 
 def right_secret_key(key: str) -> bytes:
     if len(key) > 32:
-        return bytes((key[: 32 - len(key)]).encode('utf-8'))
-    return bytes(key.encode('utf-8'))
+        return bytes((key[: 32 - len(key)]).encode("utf-8"))
+    return bytes(key.encode("utf-8"))

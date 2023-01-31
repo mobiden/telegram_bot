@@ -1,5 +1,8 @@
 from typing import Any, Optional
 
+import datetime
+from dateutil import tz
+
 from aiohttp.web import json_response as aiohttp_json_response
 from aiohttp.web_response import Response
 
@@ -31,3 +34,7 @@ def error_json_response(
             "data": data,
         },
     )
+
+
+def now():
+    return datetime.datetime.now(tz=tz.UTC)

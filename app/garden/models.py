@@ -5,7 +5,8 @@ from app.store.database.sa_db import sa_db, Sa_db
 
 from sqlalchemy import Enum
 
-months = ('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'null')
+months = ("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "null")
+
 
 class TypeModel(Sa_db):
     __tablename__ = "flora_types"
@@ -17,26 +18,25 @@ class FloraModel(Sa_db):
 
     flora_id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100), nullable=False, unique=True)
-    type = Column(String(30), ForeignKey('flora_types.type'))
-    planting_time = Column(Enum(*months, name='pl_months'),nullable=True)
-    harvest_time = Column(Enum (*months, name='har_months'),nullable=True)
+    type = Column(String(30), ForeignKey("flora_types.type"))
+    planting_time = Column(Enum(*months, name="pl_months"), nullable=True)
+    harvest_time = Column(Enum(*months, name="har_months"), nullable=True)
     __mapper_args__ = {"eager_defaults": True}
 
 
 class GardenOperationModel(Sa_db):
-    __tablename__ = 'garden_operations'
+    __tablename__ = "garden_operations"
 
     operation_id = Column(Integer, primary_key=True, autoincrement=True)
-    operation_time = Column(Enum (*months, name='op_months'),nullable=True)
-    flora = Column(String(100), ForeignKey('floras.name'), nullable=False)
+    operation_time = Column(Enum(*months, name="op_months"), nullable=True)
+    flora = Column(String(100), ForeignKey("floras.name"), nullable=False)
     description = Column(Text, nullable=False)
-    UniqueConstraint('operation_time', 'flora', name='uniq_1')
+    UniqueConstraint("operation_time", "flora", name="uniq_1")
     __mapper_args__ = {"eager_defaults": True}
 
 
-
 class UserModel(Sa_db):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
     id = Column(Integer(), nullable=False, autoincrement=True, primary_key=True)
     # email = db.Column(db.Unicode(), nullable=False)

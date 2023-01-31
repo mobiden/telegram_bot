@@ -20,7 +20,7 @@ class AdminModel(Sa_db):
     password = Column(String(100), nullable=True)
 
     def __repr__(self):
-        return f'Admin - {self.email}'
+        return f"Admin - {self.email}"
 
     def is_password_valid(self, password: str):
         return self.password == sha256(password.encode()).hexdigest()
@@ -42,11 +42,15 @@ class Admin_Session(Sa_db):
     created = Column(DateTime(timezone=True), nullable=False)
     adm_sess_token = Column(String(32), primary_key=True)
 
+
+"""
     @classmethod
     async def generate(cls, admin_id):
+
         return await cls.create(
             admin_id=admin_id,
-            adm_sess_token= str(uuid.uuid4().hex),
+            adm_sess_token=str(uuid.uuid4().hex),
             created=now(),
             expires=now() + datetime.timedelta(days=cls.AGE_DAYS),
-        )
+                                     )
+"""

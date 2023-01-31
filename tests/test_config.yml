@@ -1,0 +1,29 @@
+session:
+  key: pVkLmPlFjGcNT1pz8InBXifUiPwp7wY=
+
+admin:
+  email: admin@admin.com
+  password: adminadminadmin
+  debug: True
+
+database:
+  db: postgresql
+
+
+postgresql:
+  host: 127.0.0.1
+  port: 5433
+  user: postgres
+  password: postgresqlqweFv1pCoFx
+  database: test_bot_db
+  db_name: postgresql+asyncpg
+
+
+bot:
+  name: RussianGardenHelper
+  token: 5407718698:AAF9BdK0PZetZcmqov9H93w06a-V89m2_-0
+  group_id: 5407718698
+  webhook: False
+
+site:
+  url: https://komlyakov.ru/garden_bot/API/web/

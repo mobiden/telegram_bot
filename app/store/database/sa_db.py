@@ -1,4 +1,4 @@
-#from gino import Gino
+# from gino import Gino
 from sqlalchemy.orm import declarative_base
 
 Sa_db = declarative_base()

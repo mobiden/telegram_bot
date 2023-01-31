@@ -11,9 +11,10 @@ if typing.TYPE_CHECKING:
 class SessionConfig:
     key: str
 
+
 @dataclass
 class SiteConfig:
-        url: str
+    url: str
 
 
 @dataclass
@@ -52,7 +53,7 @@ class Config:
 def setup_config(app: "Application", config_path: str):
     with open(config_path, "r") as f:
         raw_config = yaml.safe_load(f)
-    current_db = raw_config['database']['db']
+    current_db = raw_config["database"]["db"]
 
     app.config = Config(
         session=SessionConfig(
@@ -63,14 +64,11 @@ def setup_config(app: "Application", config_path: str):
             password=raw_config["admin"]["password"],
             debug=raw_config["admin"]["debug"],
         ),
-
         bot=BotConfig(
             bot_token=raw_config["bot"]["token"],
             group_id=raw_config["bot"]["group_id"],
             webhook=raw_config["bot"]["webhook"],
         ),
-
         database=DatabaseConfig(**raw_config[current_db]),
-
-        site=SiteConfig(url=raw_config['site']['url']),
+        site=SiteConfig(url=raw_config["site"]["url"]),
     )

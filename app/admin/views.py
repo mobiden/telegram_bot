@@ -7,8 +7,8 @@ from aiohttp.web import HTTPForbidden, HTTPUnauthorized
 
 from app.web.utils import json_response
 
-#TODO: создавать нового админа и удалять по умолчанию
-#TODO: добавить токенизацию
+# TODO: создавать нового админа и удалять по умолчанию
+# TODO: добавить токенизацию
 
 
 class AdminLoginView(View):

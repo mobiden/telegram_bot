@@ -11,16 +11,20 @@ from alembic import context
 from app.store.database.sa_db import sa_db
 from app.web.config import DatabaseConfig
 
-with open('config.yml') as cf:
+with open("config.yml") as cf:
     cfg = yaml.safe_load(cf)
-    database = cfg['database']['db']
+    database = cfg["database"]["db"]
     app_config = DatabaseConfig(**cfg.get(database, {}))
 
 
-def set_sqlalchemy_url(db_name:str, username:str, password:str, host:str, port:str, db: str):
+def set_sqlalchemy_url(
+    db_name: str, username: str, password: str, host: str, port: str, db: str
+):
 
     print(f"{db_name}://{username}:{password}@{host}:{port}/{db}")
-    config.set_main_option('sqlalchemy.url', f"{db_name}://{username}:{password}@{host}:{port}/{db}")
+    config.set_main_option(
+        "sqlalchemy.url", f"{db_name}://{username}:{password}@{host}:{port}/{db}"
+    )
 
 
 config = context.config
@@ -54,8 +58,14 @@ def run_migrations_offline():
     script output.
 
     """
-    set_sqlalchemy_url(app_config.db_name, app_config.user, app_config.password,  # added
-                       app_config.host, app_config.port, app_config.database)
+    set_sqlalchemy_url(
+        app_config.db_name,
+        app_config.user,
+        app_config.password,  # added
+        app_config.host,
+        app_config.port,
+        app_config.database,
+    )
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
@@ -75,8 +85,14 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    set_sqlalchemy_url(app_config.db_name, app_config.user, app_config.password,  # added
-                       app_config.host, app_config.port, app_config.database)
+    set_sqlalchemy_url(
+        app_config.db_name,
+        app_config.user,
+        app_config.password,  # added
+        app_config.host,
+        app_config.port,
+        app_config.database,
+    )
     connectable = engine_from_config(
         config.get_section(config.config_ini_section),
         prefix="sqlalchemy.",
@@ -84,9 +100,7 @@ def run_migrations_online():
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

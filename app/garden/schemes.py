@@ -1,6 +1,7 @@
 from marshmallow import Schema, fields
 
-#TODO: add validations
+# TODO: add validations
+
 
 class FloraAddSchema(Schema):
     name = fields.Str(required=True)
@@ -12,6 +13,3 @@ class FloraAddSchema(Schema):
 class FloraTypeAddSchema(Schema):
     id = fields.Int(required=False)
     type = fields.Str(required=True)
-
-
-
