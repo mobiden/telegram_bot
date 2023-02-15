@@ -10,12 +10,14 @@ from app.base.base_accessor import BaseAccessor
 from app.store.telegram_api.te_dataclasses import OutMessage
 
 from app.store.telegram_api.te_poller import Poller
+from my_logging import create_logs
 
 if typing.TYPE_CHECKING:
     from app.web.app import Application
 
 # TODO: перекинуть в конфиги
 API_PATH = "https://api.telegram.org/bot"
+
 
 
 class TelegramApiAccessor(BaseAccessor):
@@ -66,6 +68,7 @@ class TelegramApiAccessor(BaseAccessor):
 
         async with self.session.get(te_poll_url) as resp:
             data = await resp.json()
+            updates = None
             if "ok" in data:
                 updates = data["result"]
 

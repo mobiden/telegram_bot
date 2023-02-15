@@ -1,4 +1,4 @@
-from aiohttp.web_exceptions import HTTPConflict, HTTPNotFound, HTTPBadRequest
+from aiohttp.web_exceptions import HTTPConflict, HTTPNotFound, HTTPBadRequest, HTTPMethodNotAllowed
 from aiohttp_apispec import request_schema, response_schema, querystring_schema
 
 
@@ -14,8 +14,10 @@ from app.web.utils import json_response
 class FloraTypeAddView(AuthRequiredMixin, View):
     @request_schema(FloraTypeAddSchema)
     @response_schema(FloraTypeAddSchema)
-    async def post(self):
+    async def get(self):
+        raise HTTPMethodNotAllowed
 
+    async def post(self):
         type = self.data["type"]
         existing_type = await self.store.store_flora.get_flora_type(type)
         if existing_type:

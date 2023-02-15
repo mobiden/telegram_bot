@@ -51,11 +51,9 @@ class Database:
             #        await conn.run_sync(self.db.metadata.drop_all)
             await conn.run_sync(self.db.metadata.create_all)
 
-        self.db_async_session = sessionmaker(
+        self.db_async_session = sessionmaker(autocommit=False,
             bind=self._engine, expire_on_commit=False, class_=AsyncSession
         )
 
     async def disconnect(self, *_, **kw):
-        create_logs(f"disconnect {sa_db}")
         self.app = None
-        await sa_db.close()  # sa_db.pop_bind().close()

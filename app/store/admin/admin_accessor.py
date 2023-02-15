@@ -45,12 +45,11 @@ class AdminAccessor(BaseAccessor):
                 await session.commit()
                 _ = await self._create_admin_session(admin_id=admin.id)
 
-
-
         else:
             if admin.password != sha256(password.encode("utf-8")).hexdigest():
                 raise HTTPForbidden
         return admin
+
 
     async def _create_admin_session(self, admin_id: Union[str, int]) -> Admin_Session:
         async with self.app.database.db_async_session() as db_session:

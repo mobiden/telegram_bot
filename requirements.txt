@@ -30,10 +30,10 @@ alembic==1.6.5
 aiohttp-session==2.9.0
 cryptography==3.4.8
 
-pytest==6.2.4
-pytest-aiohttp==0.3.0
-pytest-cov==2.12.1
-pytest-mock==3.6.1
+pytest
+pytest-aiohttp
+pytest-cov
+pytest-mock
 aioresponses==0.7.2
 freezegun==1.1.0
 psycopg2

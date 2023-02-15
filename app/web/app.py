@@ -60,8 +60,7 @@ def setup_app(config_path: str) -> Application:
         ),
     )
     setup_routes(app)
-    # TODO: fix the swagger bag
-    # setup_aiohttp_apispec(app, title="Telegram Bot", url="/docs/json", swagger_path="/docs",)
+    setup_aiohttp_apispec(app, title="Telegram Bot", url="/docs/json", swagger_path="/docs",)
     setup_middlewares(app)
     setup_store(app)
     if app.config.admin.debug:
