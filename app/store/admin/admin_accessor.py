@@ -15,11 +15,13 @@ if TYPE_CHECKING:
 
 
 class AdminAccessor(BaseAccessor):
+
     async def connect(self, app: "Application"):
         await super().connect(app)
         await self.create_admin(
             email=app.config.admin.email, password=app.config.admin.password
         )
+
 
     async def get_admin_by_email(self, email: str) -> Optional[AdminModel]:
 
@@ -32,6 +34,7 @@ class AdminAccessor(BaseAccessor):
         if expect_admin:
             return expect_admin
         return None
+
 
     async def create_admin(self, email: str, password: str) -> AdminModel:
         admin = await self.get_admin_by_email(email)

@@ -77,6 +77,7 @@ def run_migrations_offline():
     with context.begin_transaction():
         context.run_migrations()
 
+#TODO: change to async - https://alembic.sqlalchemy.org/en/latest/cookbook.html#using-asyncio-with-alembic
 
 def run_migrations_online():
     """Run migrations in 'online' mode.

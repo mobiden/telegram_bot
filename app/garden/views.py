@@ -2,29 +2,28 @@ from aiohttp.web_exceptions import HTTPConflict, HTTPNotFound, HTTPBadRequest, H
 from aiohttp_apispec import request_schema, response_schema, querystring_schema
 
 
-from app.garden.schemes import (
-    FloraAddSchema,
-    FloraTypeAddSchema,
-)
+from app.garden.schemes import (FloraAddSchema, FloraTypeSchema,)
 from app.web.app import View
 from app.web.mixins import AuthRequiredMixin
 from app.web.utils import json_response
 
 
 class FloraTypeAddView(AuthRequiredMixin, View):
-    @request_schema(FloraTypeAddSchema)
-    @response_schema(FloraTypeAddSchema)
+    @request_schema(FloraTypeSchema)
+    @response_schema(FloraTypeSchema, 200)
     async def get(self):
         raise HTTPMethodNotAllowed
 
     async def post(self):
-        type = self.data["type"]
-        existing_type = await self.store.store_flora.get_flora_type(type)
+        flora_type = (await self.request.json())['flora_type']
+       # flora_type = self.data["flora_type"]
+        existing_type = await self.store.store_flora.get_flora_type(flora_type)
         if existing_type:
-            raise HTTPConflict
-        new_type = await self.store.store_flora.create_flora_type(type=type)
-
-        return json_response(data=FloraTypeAddSchema().dump(new_type))
+            raise HTTPConflict(reason='type was already added earlier')
+        new_type = await self.store.store_flora.create_flora_type(type=flora_type)
+        temp1 = FloraTypeSchema().dumps(new_type)
+        temp2 = FloraTypeSchema().dump(new_type)
+        return json_response(data=FloraTypeSchema().dump(new_type))
 
 
 class FloraNameAddView(AuthRequiredMixin, View):

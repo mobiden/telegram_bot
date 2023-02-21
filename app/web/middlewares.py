@@ -97,7 +97,7 @@ async def error_handling_middleware(request: "Request", handler):
         request.app.logger.error("Exception", exc_info=e)
         if '_apispec_parser' not in str(e):
             return error_json_response(
-                http_status=500, status="internal server error", message=str(e)
+                http_status=500, status=f"internal server error. {str(e)}", message=str(e)
             )
 
         return error_json_response(

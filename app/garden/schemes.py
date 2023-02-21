@@ -10,6 +10,6 @@ class FloraAddSchema(Schema):
     harvest_time = fields.Str(required=False)
 
 
-class FloraTypeAddSchema(Schema):
-    id = fields.Int(required=False)
-    type = fields.Str(required=True)
+
+class FloraTypeSchema(Schema):
+    type = fields.Str(required=True, data_key='flora_type')

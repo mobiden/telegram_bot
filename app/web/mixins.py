@@ -14,14 +14,15 @@ class AuthRequiredMixin:  #
         token = get_token(self.request)
         if token:
             async with self.request.app.database.db_async_session() as db_session:
-                web_session = await db_session.executive(f_select(Admin_Session).where(
+                web_session = await db_session.execute(f_select(Admin_Session).where(
                     and_(
                         Admin_Session.adm_sess_token == token,
-                        Admin_Session.expires >= datetime.datetime.utcnow(),
+                        Admin_Session.expires >= datetime.utcnow(),
                     )
-                ).first())
-            if web_session:
-                self.request["admin_id"] = web_session.admin_id
+                ))
+            w_session = web_session.scalar()
+            if w_session:
+                self.request["admin_id"] = w_session.admin_id
             else:
                 raise HTTPUnauthorized(reason='Invalid or obsolete token')
         else:
